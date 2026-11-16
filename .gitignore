@@ -1,0 +1,24 @@
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+
+# 案例材料（绝不提交）
+cases/
+*.docx
+*.pdf
+案例*
+督导报告*
+
+# Python
+__pycache__/
+*.pyc
+
+# 临时文件
+*.tmp
+*.log
