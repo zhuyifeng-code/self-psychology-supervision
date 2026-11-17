@@ -27,6 +27,27 @@
 | **儿童青少年** | 来访者 <18 岁的附加评估 |
 | **连续分析** | 同一案例多次督导的进展追踪 |
 
+## 给普通用户：三种不用命令行的用法
+
+**豆包网页版 / APP 这类客户端没有「安装技能」的能力** —— 模型说「帮你装」只会失败，或者编出一套 MCP 配置来。不用装也能用，任选一种：
+
+| 方式 | 怎么做 | 适合 |
+|---|---|---|
+| **A. 粘贴版** | 打开 [`prompts/PASTE-QUICK.md`](prompts/PASTE-QUICK.md)，整段复制，贴进对话框或智能体的「人设 / 系统提示词」，再发案例 | 最省事（3.6 KB） |
+| **B. 知识库版** | 把 [`prompts/PASTE-FULL.md`](prompts/PASTE-FULL.md)（48 KB，含全部 7 个模块）上传到智能体知识库，人设里写「按知识库中的督导模板执行」 | 想要技术评估等长模块 |
+| **C. 手动安装** | 下载 zip → 解压 → 把文件夹放进技能目录（见下）→ 重启客户端 | 想让它自动触发 |
+
+> **这不是 MCP Server。** 把仓库地址填进 Cursor / Cherry Studio / LobeChat 的「MCP Server」不会生效：MCP 是工具协议，技能是提示词目录，两回事。
+
+### 豆包电脑版放哪
+
+技能目录（先打开一次豆包「技能」页，目录才会被创建）：
+
+- macOS：`~/Library/Application Support/Doubao/Default/.doubao/agent_mode/workspace/.user_skills/`
+- Windows：`%APPDATA%\Doubao\` 下找 `agent_mode\workspace\.user_skills\`
+
+放进去的目录必须是 `self-psychology-supervision/SKILL.md` 这一层，不能多套一层。
+
 ## 安装
 
 ### 方式零：Agent Harness 从 GitHub 直接装（最省事）
