@@ -22,3 +22,7 @@ __pycache__/
 # 临时文件
 *.tmp
 *.log
+
+# 临时文件
+_payload.json
+_resp.json
