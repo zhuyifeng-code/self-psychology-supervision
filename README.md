@@ -137,7 +137,8 @@ python3 scripts/run_supervision.py --case case.txt --modules core,technique --ou
 |---|---|
 | `base_url` | Anthropic 兼容端点，脚本请求 `{base_url}/v1/messages` |
 | `api_key` | 该端点的密钥（同时作为 `x-api-key` 与 `Bearer` 发送） |
-| `model` | 模型名，需支持 Anthropic Messages 协议 |
+| `api` | `anthropic`（默认，`/v1/messages`）或 `openai`（`/chat/completions`，兼容 LM Studio、vLLM 等） |
+| `model` | 模型名；thinking 模型请把 `max_tokens` 给足（建议 32000），否则正文会被思考过程吃掉 |
 | `max_tokens` | 输出上限，thinking 计入，建议 20000 以上 |
 
 不用 `config.json` 时，改读环境变量 `SUPERVISION_BASE_URL` / `SUPERVISION_API_KEY` / `SUPERVISION_MODEL`（可选 `SUPERVISION_MAX_TOKENS`、`SUPERVISION_TEMPERATURE`、`SUPERVISION_TIMEOUT`）。

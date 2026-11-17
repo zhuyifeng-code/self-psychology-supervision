@@ -135,23 +135,39 @@ def build_prompt(modules, case_text, question, history_files, extra_context=None
     return prompt
 
 
-def call_model(prompt, cfg, model_override, max_tokens_override):
+def resolve_endpoint(base_url, api):
+    """按协议拼出请求地址，容忍 base_url 已带 /v1 或 /lms/v1。"""
+    base = base_url.rstrip("/")
+    if api == "openai":
+        return base + "/chat/completions" if base.endswith(("/v1", "/lms/v1")) else base + "/v1/chat/completions"
+    return base + "/messages" if base.endswith("/v1") else base + "/v1/messages"
+
+
+def call_model(prompt, cfg, model_override, max_tokens_override, api_override=None):
+    """调模型。api 取 config.json 的 api 字段（anthropic 默认 / openai 兼容）。"""
+    api = (api_override or cfg.get("api") or "anthropic").lower()
+    if api not in ("anthropic", "openai"):
+        sys.exit(f"未知 api：{api}（只能是 anthropic 或 openai）")
+    model = model_override or cfg["model"]
+    max_tokens = max_tokens_override or cfg.get("max_tokens", 32000)
+    url = resolve_endpoint(cfg["base_url"], api)
     payload = {
-        "model": model_override or cfg["model"],
-        "max_tokens": max_tokens_override or cfg.get("max_tokens", 32000),
+        "model": model,
+        "max_tokens": max_tokens,
         "temperature": cfg.get("temperature", 0.7),
         "messages": [{"role": "user", "content": prompt}],
     }
-    req = urllib.request.Request(
-        cfg["base_url"].rstrip("/") + "/v1/messages",
-        data=json.dumps(payload).encode("utf-8"),
-        headers={
+    if api == "openai":
+        headers = {"Authorization": "Bearer " + cfg["api_key"], "Content-Type": "application/json"}
+    else:
+        headers = {
             "x-api-key": cfg["api_key"],
             "Authorization": "Bearer " + cfg["api_key"],
             "anthropic-version": "2023-06-01",
             "content-type": "application/json",
-        },
-    )
+        }
+    req = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"), headers=headers, method="POST")
+    print(f"[meta] {api} → {url} model={model}", file=sys.stderr)
     try:
         with urllib.request.urlopen(req, timeout=cfg.get("timeout", 600)) as resp:
             data = json.load(resp)
@@ -161,14 +177,23 @@ def call_model(prompt, cfg, model_override, max_tokens_override):
     except Exception as e:
         sys.exit(f"模型调用失败: {e}")
 
-    # 拼接所有 text 块（thinking 块不进报告）
-    chunks = [b.get("text", "") for b in data.get("content", []) if b.get("type") == "text"]
-    text = "\n".join(c for c in chunks if c).strip()
+    if api == "openai":
+        choices = data.get("choices") or [{}]
+        text = (choices[0].get("message") or {}).get("content") or ""
+        usage = data.get("usage") or {}
+        meta = f"in={usage.get('prompt_tokens')} out={usage.get('completion_tokens')}"
+    else:
+        chunks = [b.get("text", "") for b in data.get("content", []) if b.get("type") == "text"]
+        text = "\n".join(c for c in chunks if c)
+        usage = data.get("usage") or {}
+        meta = f"in={usage.get('input_tokens')} out={usage.get('output_tokens')}"
+    text = text.strip()
     if not text:
-        sys.exit("模型未返回文本内容（可能被 max_tokens 截断在 thinking 阶段，可调大 --max-tokens）")
-    usage = data.get("usage", {})
-    print(f"[meta] model={data.get('model')} in={usage.get('input_tokens')} out={usage.get('output_tokens')}",
-          file=sys.stderr)
+        sys.exit(
+            "模型未返回文本（常见原因：max_tokens 被 thinking 吃掉，或该模型把正文放在 reasoning_content）。"
+            "把 max_tokens 调大（如 32000）后重试。"
+        )
+    print(f"[meta] model={data.get('model')} {meta}", file=sys.stderr)
     return text
 
 
@@ -183,6 +208,7 @@ def main():
     ap.add_argument("--dry-run", action="store_true", help="只组装提示词并打印统计，不发送请求")
     ap.add_argument("--continue-from", default=None, help="已输出文件：从中断处续写")
     ap.add_argument("--model", default=None)
+    ap.add_argument("--api", choices=["anthropic", "openai"], default=None, help="覆盖 config.json 的 api 字段")
     ap.add_argument("--max-tokens", type=int, default=None)
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
@@ -212,7 +238,8 @@ def main():
         config_note = "未配置"
         try:
             cfg = load_config()
-            config_note = f"{cfg.get('base_url')} / {args.model or cfg.get('model')}"
+            api = (args.api or cfg.get("api") or "anthropic").lower()
+            config_note = f"{api} → {resolve_endpoint(cfg['base_url'], api)} / {args.model or cfg.get('model')}"
         except SystemExit as error:
             config_note = f"未配置（{error}）"
         print(f"[dry-run] 模块: {','.join(modules)}", file=sys.stderr)
@@ -221,7 +248,7 @@ def main():
         print("[dry-run] 未发送任何请求", file=sys.stderr)
         return
 
-    text = call_model(prompt, load_config(), args.model, args.max_tokens)
+    text = call_model(prompt, load_config(), args.model, args.max_tokens, args.api)
 
     if args.out:
         with open(args.out, "w", encoding="utf-8") as f:

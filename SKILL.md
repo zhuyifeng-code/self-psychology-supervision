@@ -76,6 +76,7 @@ description: 自体心理学（科胡特学派）案例督导分析技能。当�
        --question "用户的具体督导疑问（可空）" --out report.md
    ```
 
+   **协议要对上**：脚本默认走 Anthropic 的 `/v1/messages`；端点是 OpenAI 兼容的（例如 LM Studio 的 `/lms/v1`）时加 `--api openai`，或在 `config.json` 里写 `"api": "openai"`。不匹配会 404/502。
 4. **报告标题下注明**「执行模型：<config.json 里的 model>」。
 5. **失败就退回**：环境不能执行命令、没有 python3、网络不通、配置缺失——**直接回到会话内分析**，不要反复重试，也不要把报错甩给用户。
 
