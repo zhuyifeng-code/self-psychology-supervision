@@ -27,6 +27,26 @@
 
 ## 安装
 
+### 方式零：Agent Harness 从 GitHub 直接装（最省事）
+
+在 DeepSeek Harness / Codex / Claude Code 的对话框里直接说：
+
+```
+从 GitHub 安装这个 skill：
+https://github.com/zhuyifeng-code/self-psychology-supervision
+```
+
+Agent 会调用内置的 skill-installer 完成安装，**下一轮对话生效**。
+
+本仓库根目录本身就是合法的 skill 目录（`SKILL.md` + `assets/prompts/`），不需要指定子路径。Codex 安装器命令：
+
+```bash
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --repo zhuyifeng-code/self-psychology-supervision --path .
+```
+
+网络受限、手动安装、装完验证、常见问题，见 **[INSTALL_HARNESS.md](INSTALL_HARNESS.md)**。
+
 ### 方式一：Claude Code / 兼容客户端（含 DeepSeek 接入）
 
 ```bash
