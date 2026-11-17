@@ -1,5 +1,8 @@
 # 自体心理学督导技能 · Self Psychology Supervision Skill
 
+![downloads](https://img.shields.io/github/downloads/zhuyifeng-code/self-psychology-supervision/total?label=downloads)
+[![release](https://img.shields.io/github/v/release/zhuyifeng-code/self-psychology-supervision)](https://github.com/zhuyifeng-code/self-psychology-supervision/releases/latest)
+
 > 把科胡特（Kohut）自体心理学的案例督导方法论，做成 AI 可直接执行的结构化技能包。
 
 面向心理咨询师、督导、心理学研究生。提交一份案例报告，产出结构化的专业督导报告——包含个案概念化、自体状态评估、自体客体移情评估、Lichtenberg 十原则技术评估、逐字稿对话分析、梦的分析等模块。
@@ -36,6 +39,7 @@
 | **A. 粘贴版** | 打开 [`prompts/PASTE-QUICK.md`](prompts/PASTE-QUICK.md)，整段复制，贴进对话框或智能体的「人设 / 系统提示词」，再发案例 | 最省事（3.6 KB） |
 | **B. 知识库版** | 把 [`prompts/PASTE-FULL.md`](prompts/PASTE-FULL.md)（48 KB，含全部 7 个模块）上传到智能体知识库，人设里写「按知识库中的督导模板执行」 | 想要技术评估等长模块 |
 | **C. 手动安装** | 下载 zip → 解压 → 把文件夹放进技能目录（见下）→ 重启客户端 | 想让它自动触发 |
+| **D. Release 附件** | [下载整包 zip](https://github.com/zhuyifeng-code/self-psychology-supervision/releases/download/v1.3.0/self-psychology-supervision-v1.3.0.zip)（73 KB，含全部文件） | 想离线存一份 / 教学演示 |
 
 > **这不是 MCP Server。** 把仓库地址填进 Cursor / Cherry Studio / LobeChat 的「MCP Server」不会生效：MCP 是工具协议，技能是提示词目录，两回事。
 
