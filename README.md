@@ -139,3 +139,12 @@ MIT License。可自由使用、修改、二次分发。
 - 新的督导模块（如团体督导、危机干预评估）
 - 不同理论流派的对照视角（Geist 关系性、主体间学派）
 - 模板的中英文双语版本
+
+## 作为 DeepSeek Harness 插件安装
+
+本仓库根目录同时是一个 DeepSeek Harness（DSH）bundle：`package.json` 声明 `dsh.bundle.patch`，`cordis.patch.yml` 插入 `skill-self-psychology-supervision` 一行，`index.js` 把本仓库的 `SKILL.md` 注册进会话技能目录（只读文件，不加工具、不改权限、不联网）。
+
+- **从 GitHub 安装**：DSH 里 `plugin_manager` 的 `install_bundle` 目标填 `github:zhuyifeng-code/self-psychology-supervision`；或 **Plugins** 页的安装入口填同一 spec。
+- **从本地安装**：**Plugins** > **Add plugin** 选择本目录。
+- **不装插件也可以**：把仓库放进 `~/.dsh/skills/`、`~/.agents/skills/` 或项目的 `.agents/skills/`，它就是普通技能，与其他 harness 的装法一致。
+

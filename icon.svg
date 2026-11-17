@@ -1,0 +1,11 @@
+<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M18 12A7.5 7.5 0 0 1 18 24A7.5 7.5 0 0 1 18 12Z" fill="url(#supervision-lens)" />
+  <circle cx="13.5" cy="18" r="7.5" stroke="#7AC2FF" stroke-width="2.4" />
+  <circle cx="22.5" cy="18" r="7.5" stroke="#4A65E8" stroke-width="2.4" />
+  <defs>
+    <linearGradient id="supervision-lens" x1="14" y1="12" x2="22" y2="24" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7AC2FF" />
+      <stop offset="1" stop-color="#4A65E8" />
+    </linearGradient>
+  </defs>
+</svg>

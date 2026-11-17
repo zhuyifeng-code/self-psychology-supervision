@@ -1,0 +1,5 @@
+# Loader patch for this bundle: inserts the Host plugin that serves the bundled
+# supervision skill through the skill registry (ctx.skills).
+- insert:
+    - id: skill-self-psychology-supervision
+      name: 'dsh-self-psychology-supervision'
