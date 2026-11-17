@@ -26,3 +26,7 @@ __pycache__/
 # 临时文件
 _payload.json
 _resp.json
+
+# 委托外部模型：本地配置与密钥，绝不提交
+config.json
+_theory_plus_extra.txt

@@ -57,6 +57,30 @@ description: 自体心理学（科胡特学派）案例督导分析技能。当�
 - 案例含咨询对话/逐字稿 → 加 dialogue；含梦境 → 加 dream；来访者 <18 岁 → 加 child；用户要求评技术 → 加 technique（31KB 大模板，单用或与 core 同用）；用户说明是同一来访者的后续督导 → 加 continuous，并请用户提供或授权引用前次分析。
 - 用户未指定时，按材料内容自动选择并说明所选模块；用户明确指定模块时完全遵从。
 
+### 2b. 选择执行方式（会话内分析 / 委托外部模型）
+
+**默认在会话内直接分析**（用当前客户端的模型）。只有用户明确要求「用某个模型跑」，且当前环境**能执行命令**时，才走委托：
+
+1. **先看有没有配置**：技能目录下有 `config.json`，或环境变量 `SUPERVISION_BASE_URL` / `SUPERVISION_API_KEY` / `SUPERVISION_MODEL` 齐全。缺配置就如实告诉用户需要先配置，**不要猜端点、不要硬编码密钥**。
+2. **先自检，不发送**：
+
+   ```bash
+   python3 scripts/run_supervision.py --case <案例文件> --modules core,technique --dry-run
+   ```
+
+   它会打印模块、目标端点、提示词字数，不发任何请求。目标显示「未配置」就先解决配置。
+3. **正式运行**（去掉 `--dry-run`）：
+
+   ```bash
+   python3 scripts/run_supervision.py --case <案例文件> --modules core,technique \
+       --question "用户的具体督导疑问（可空）" --out report.md
+   ```
+
+4. **报告标题下注明**「执行模型：<config.json 里的 model>」。
+5. **失败就退回**：环境不能执行命令、没有 python3、网络不通、配置缺失——**直接回到会话内分析**，不要反复重试，也不要把报错甩给用户。
+
+**隐私（必须提醒）**：委托会把**案例全文**发送到 `config.json` 指定的端点。发送前提醒用户先做去标识化；报告页脚保留伦理与危机干预提示。用户若不愿外发，就在会话内分析。
+
 ### 3. 组装提示词
 
 - 以 `supervision_prompt_base.txt` 为骨架：`{context}` 填所选模块模板的拼接内容，`{query}` 填案例全文与用户疑问。

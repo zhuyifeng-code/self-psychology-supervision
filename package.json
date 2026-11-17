@@ -1,6 +1,6 @@
 {
   "name": "dsh-self-psychology-supervision",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Self-psychology case supervision skill for DeepSeek Harness: eight module prompts from the supervision site, ten-principle technique review, and structured supervision reports.",
   "type": "module",
   "exports": {
@@ -17,7 +17,9 @@
     "LICENSE",
     "assets",
     "locale",
-    "icon.svg"
+    "icon.svg",
+    "scripts",
+    "config.example.json"
   ],
   "dsh": {
     "bundle": {

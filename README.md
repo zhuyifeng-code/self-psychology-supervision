@@ -123,6 +123,27 @@ git clone https://github.com/zhuyifeng-code/self-psychology-supervision.git "$en
 - **督导意义**：...
 ```
 
+## 委托外部模型（可选）
+
+默认在会话内分析，用当前客户端的模型。如果当前环境能执行命令（DSH、豆包电脑版、Codex 等都可以），也可以把分析**委托给指定的模型端点**，让输出不受会话模型影响：
+
+```bash
+cp config.example.json config.json     # 填 base_url / api_key / model
+python3 scripts/run_supervision.py --case case.txt --modules core,technique --dry-run   # 自检，不发送
+python3 scripts/run_supervision.py --case case.txt --modules core,technique --out report.md
+```
+
+| 字段 | 说明 |
+|---|---|
+| `base_url` | Anthropic 兼容端点，脚本请求 `{base_url}/v1/messages` |
+| `api_key` | 该端点的密钥（同时作为 `x-api-key` 与 `Bearer` 发送） |
+| `model` | 模型名，需支持 Anthropic Messages 协议 |
+| `max_tokens` | 输出上限，thinking 计入，建议 20000 以上 |
+
+不用 `config.json` 时，改读环境变量 `SUPERVISION_BASE_URL` / `SUPERVISION_API_KEY` / `SUPERVISION_MODEL`（可选 `SUPERVISION_MAX_TOKENS`、`SUPERVISION_TEMPERATURE`、`SUPERVISION_TIMEOUT`）。
+
+**`config.json` 已在 `.gitignore` 里，不要提交。** 委托意味着**案例全文会发送到该端点**——发送前请做去标识化，并确认来访者对第三方模型处理其材料的知情同意；不愿意外发就留在会话内分析。
+
 ## 重要声明
 
 - **隐私**：案例材料含来访者隐私。使用云端模型时材料会发送至服务商，**请先做去标识化处理**（姓名、地点、可识别细节）。

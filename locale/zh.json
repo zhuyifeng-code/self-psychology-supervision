@@ -1,6 +1,6 @@
 {
   "meta": {
     "title": "自体心理学案例督导",
-    "description": "把「自体心理学案例督导」技能加入会话的技能目录。提交案例并要求督导，或用 skill 工具按名加载 self-psychology-supervision；技能读取 assets/prompts 下的 8 个模块模板，在当前会话内直接产出结构化督导报告，不调用任何外部服务，案例文本只发送给本会话已在使用的模型。停用插件即从技能目录移除。"
+    "description": "把「自体心理学案例督导」技能加入会话的技能目录。提交案例并要求督导，或用 skill 工具按名加载 self-psychology-supervision；技能读取 assets/prompts 下的 8 个模块模板，默认在当前会话内直接产出结构化报告。若用户配置了 config.json 或 SUPERVISION_* 环境变量并选择「委托」，可用 scripts/run_supervision.py 把案例发送到指定端点由该模型分析。停用插件即从技能目录移除。"
   }
 }
