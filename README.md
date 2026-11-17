@@ -137,7 +137,7 @@ python3 scripts/run_supervision.py --case case.txt --modules core,technique --ou
 |---|---|
 | `base_url` | Anthropic 兼容端点，脚本请求 `{base_url}/v1/messages` |
 | `api_key` | 该端点的密钥（同时作为 `x-api-key` 与 `Bearer` 发送） |
-| `api` | `anthropic`（默认，`/v1/messages`）或 `openai`（`/chat/completions`，兼容 LM Studio、vLLM 等） |
+| `api` | `anthropic`（默认，`/v1/messages`）或 `openai`（`/chat/completions`，兼容 OpenAI 协议的网关与推理服务） |
 | `model` | 模型名；thinking 模型请把 `max_tokens` 给足（建议 32000），否则正文会被思考过程吃掉 |
 | `max_tokens` | 输出上限，thinking 计入，建议 20000 以上 |
 
@@ -147,9 +147,10 @@ python3 scripts/run_supervision.py --case case.txt --modules core,technique --ou
 
 ## 重要声明
 
-- **隐私**：案例材料含来访者隐私。使用云端模型时材料会发送至服务商，**请先做去标识化处理**（姓名、地点、可识别细节）。
+- **隐私**：案例材料含来访者隐私。使用云端模型时材料会发送至服务商，**请先做去标识化处理**（姓名、地点、单位、可识别细节）。技能不提供任何数据安全保证，不对传输链路与服务商留存作承诺。
 - **定位**：本技能产出为**专业督导参考**，不替代真人督导、伦理审查与临床判断。
-- **责任**：使用者的临床决策责任始终在自身。
+- **责任**：是否使用云端或第三方模型处理案例材料、材料如何去标识化与留存，均由使用者自行评估合规性并承担全部责任。
+- **技能边界**：本技能只负责提示词组装与解析，不做加密、不上传、不备份，也不能阻止模型服务商按其条款处理材料。
 
 ## 许可
 

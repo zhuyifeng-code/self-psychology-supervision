@@ -1,6 +1,6 @@
 {
   "meta": {
     "title": "Self-psychology supervision",
-    "description": "Adds the self-psychology supervision skill to the session skill catalog. Submit a case and ask for supervision, or load self-psychology-supervision by name with the skill tool; the instructions read the module prompts in assets/prompts and write the report in the current session by default. When config.json or the SUPERVISION_* environment variables are configured and the user asks for delegation, scripts/run_supervision.py sends the case to that endpoint instead. Turning the bundle off removes the skill from the catalog."
+    "description": "Adds the self-psychology supervision skill to the session skill catalog. Submit a case and ask for supervision, or load self-psychology-supervision by name with the skill tool; the instructions read the module prompts in assets/prompts and write the report in the current session by default. When config.json or the SUPERVISION_* environment variables are configured and the user asks for delegation, scripts/run_supervision.py sends the case to that endpoint instead. Turning the bundle off removes the skill from the catalog.De-identification, transport and retention of case material, and compliance decisions, are the user's responsibility; the skill offers no data-security guarantee."
   }
 }
