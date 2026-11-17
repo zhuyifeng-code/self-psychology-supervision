@@ -31,13 +31,13 @@
 
 ```bash
 # 克隆到 skills 目录
-git clone https://github.com/<your-name>/deepseek-self-psychology-supervision.git \
+git clone https://github.com/zhuyifeng-code/self-psychology-supervision.git \
   ~/.claude/skills/self-psychology-supervision
 ```
 
 **Windows（PowerShell）：**
 ```powershell
-git clone https://github.com/<your-name>/deepseek-self-psychology-supervision.git "$env:USERPROFILE\.claude\skills\self-psychology-supervision"
+git clone https://github.com/zhuyifeng-code/self-psychology-supervision.git "$env:USERPROFILE\.claude\skills\self-psychology-supervision"
 ```
 
 装好后重启客户端，技能会自动被识别。
